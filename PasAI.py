@@ -32,20 +32,20 @@ meses = {
     "December": "diciembre"
 }
 
-# 📅 Fecha actual en español
+# Fecha actual en español
 now = datetime.now()
 dia = dias[now.strftime("%A")]
 mes = meses[now.strftime("%B")]
 fecha_hoy = f"{dia} {now.day} de {mes} de {now.year}"
 
-# 📧 Datos
+# Datos
 remitente = "selfgeneratedcamilogonzalez@gmail.com"
 destinatarios = ["pastoledorubilar@gmail.com"]
 
-# 🤖 Cliente OpenAI
+# Cliente OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Generar frase romántica con IA
+# random phrase ai generated
 respuesta = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -56,20 +56,20 @@ respuesta = client.chat.completions.create(
 
 frase = respuesta.choices[0].message.content.strip()
 
-# ✉️ Construir mensaje
+# message
 mensaje = MIMEMultipart("alternative")
 mensaje["Subject"] = f"Un mensaje para ti ❤️ ({fecha_hoy})"
 mensaje["From"] = remitente
 mensaje["To"] = ", ".join(destinatarios)
 mensaje["Cc"] = remitente  # copia al remitente
 
-texto = f"Buenos días, hoy es {fecha_hoy} 💌\n\n{frase}"
+texto = f"Buenos días, regalonchita. Hoy es {fecha_hoy} 💌\n\n{frase}"
 mensaje.attach(MIMEText(texto, "plain"))
 
-# Lista final de destinatarios
+# send and copy to myself
 todos_destinatarios = destinatarios + [remitente]
 
-# 🔑 Contraseña y envío
+# Contraseña y envío
 password = os.getenv("GMAIL_APP_PASSWORD")
 context = ssl.create_default_context()
 
@@ -77,6 +77,6 @@ with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(remitente, password)
     server.sendmail(remitente, todos_destinatarios, mensaje.as_string())
 
-print("Correo enviado con éxito 🎉")
+print("Correo enviado con éxito")
 
 
