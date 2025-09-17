@@ -12,6 +12,39 @@ import os
 from datetime import datetime
 from openai import OpenAI
 
+# 🔹 Diccionarios para traducir día y mes
+dias = {
+    "Monday": "lunes",
+    "Tuesday": "martes",
+    "Wednesday": "miércoles",
+    "Thursday": "jueves",
+    "Friday": "viernes",
+    "Saturday": "sábado",
+    "Sunday": "domingo"
+}
+
+meses = {
+    "January": "enero",
+    "February": "febrero",
+    "March": "marzo",
+    "April": "abril",
+    "May": "mayo",
+    "June": "junio",
+    "July": "julio",
+    "August": "agosto",
+    "September": "septiembre",
+    "October": "octubre",
+    "November": "noviembre",
+    "December": "diciembre"
+}
+
+# 📅 Fecha actual en español
+now = datetime.now()
+dia = dias[now.strftime("%A")]
+mes = meses[now.strftime("%B")]
+fecha_hoy = f"{dia} {now.day} de {mes} de {now.year}"
+
+
 # Configuración
 remitente = "selfgeneratedcamilogonzalez@gmail.com"
 destinatarios = ["pastoledorubilar@gmail.com"]
